@@ -46,7 +46,6 @@ public class ExcelFileToDataRowConverter {
         } catch (IOException e) {
             LOGGER.error("Something has gone wrong. Probably the file cannot be found. Absolute path to file: {}. Please select the file again.", src.getAbsoluteFile());
         }
-
         return new ArrayList<>();
     }
 
@@ -57,17 +56,27 @@ public class ExcelFileToDataRowConverter {
         DataRow dataRow = null;
 
         if (isCellValid(attributeCell) && isCellValid(imageLinkCell)) {
-            dataRow = convertExcelCellToDataRowObject(attributeCell, imageLinkCell);
+            dataRow = convertStringsToDataRowObject(attributeCell.getStringCellValue(), imageLinkCell.getStringCellValue());
         }
 
         return dataRow;
     }
 
-    private static DataRow convertExcelCellToDataRowObject(HSSFCell attributeCell, HSSFCell imageLinkCell) {
-        return new DataRow(attributeCell.getStringCellValue(), Arrays.asList(imageLinkCell.getStringCellValue()));
-    }
-
+    /**
+     * Checks that HSSFCell object isn't null and not empty
+     */
     private static boolean isCellValid(HSSFCell cell) {
         return cell != null && !cell.getStringCellValue().isEmpty();
+    }
+
+    private static DataRow convertStringsToDataRowObject(String attributeCell, String imageLinkCell) {
+        String[] links = breakStringOnTheLinks(imageLinkCell);
+        return new DataRow(attributeCell, Arrays.asList(links));
+    }
+
+    public static String[] breakStringOnTheLinks(String line) {
+        String newLine = line.replaceAll(" |%20|;|,", "");
+        return newLine.split(("(?<=.jpg|.png)"));
+
     }
 }
