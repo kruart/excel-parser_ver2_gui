@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author kruart
  */
-public class ExcelDataRow {
+public class DataRow {
 
     /**
      * matches the name of attribute or product in excel file
@@ -16,10 +16,10 @@ public class ExcelDataRow {
 
     private List<String> links;
 
-    public ExcelDataRow() {
+    public DataRow() {
     }
 
-    public ExcelDataRow(String name, List<String> links) {
+    public DataRow(String name, List<String> links) {
         this.name = name;
         this.links = links;
     }
