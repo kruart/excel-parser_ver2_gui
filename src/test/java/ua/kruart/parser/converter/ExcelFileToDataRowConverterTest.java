@@ -11,7 +11,9 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Arthur on 05.01.2017.
+ * Contain unit-tests for {@link ExcelFileToDataRowConverter}
+ *
+ * @author kruart
  */
 public class ExcelFileToDataRowConverterTest {
     public static final File TEST_FILE = new File("src/test/resources/file/111.xls");

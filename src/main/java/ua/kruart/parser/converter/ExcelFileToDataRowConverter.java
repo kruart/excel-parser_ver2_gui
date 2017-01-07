@@ -20,12 +20,14 @@ import java.util.List;
 
 /**
  * Converts rows data from excel file to DataRow objects
+ *
+ * @author kruart
  */
 public class ExcelFileToDataRowConverter {
     private final static Logger LOGGER = LoggerFactory.getLogger(ExcelFileToDataRowConverter.class);
 
     public static List<DataRow> extractDataFromFile(File src, int attributeColumn, int imageColumn) {
-        try(HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(src))) {
+        try(HSSFWorkbook wb = new HSSFWorkbook(new FileInputStream(src))) { //Создаем workbook
             HSSFSheet sheet = wb.getSheetAt(0);// Проверяем только первую страницу
 
             Iterator<Row> rows = sheet.rowIterator(); // gets iterator of the rows
