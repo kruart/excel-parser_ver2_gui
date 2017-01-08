@@ -55,6 +55,15 @@ public class PathConstructorHelperTest {
     }
 
     @Test
+    public void testAddImageNameToPathAndCutLinkWithParameters() {
+        String expectedPathToFile = DESTINATION + File.separator + "FUJI2NOOR" + File.separator + "100002.jpg";
+        String folderPath = DESTINATION + File.separator + "FUJI2NOOR";
+        File actualPathAfterAddImageNameToPath = PathConstructorHelper.addImageNameToPath(folderPath, "http://deltaplus-cei.com/img/b/10/00/100002.jpg?authuser=0#en/ua/testing%20its");
+
+        assertEquals(new File(expectedPathToFile), actualPathAfterAddImageNameToPath);
+    }
+
+    @Test
     public void testAddImageNameToPathWhenSuchNameAlreadyExists() throws Exception {
         spy(PathConstructorHelper.class);
 

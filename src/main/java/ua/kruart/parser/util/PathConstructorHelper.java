@@ -20,7 +20,7 @@ public class PathConstructorHelper {
     }
 
     public static File addImageNameToPath(String path, String link) {
-        String imageName = cutLinkFromString(link);
+        String imageName = cutImageNameFromLink(link);
 
         String newDest = path + File.separator + imageName;
 
@@ -31,14 +31,14 @@ public class PathConstructorHelper {
         return new File(newDest);
     }
 
-    private static String cutLinkFromString(String link) {
-        String imageName = link.substring(link.lastIndexOf("/") + 1);
-        int parametersIndexOf = imageName.lastIndexOf("?");
+    private static String cutImageNameFromLink(String link) {
+        int parametersIndexOf = link.lastIndexOf("?");
 
         if (parametersIndexOf != -1) {          //if parameters exists
-            imageName = imageName.substring(0, parametersIndexOf);//cuts parameters
+            link = link.substring(0, parametersIndexOf);//cuts parameters
         }
-        return imageName;
+            return link.substring(link.lastIndexOf("/") + 1);
+
     }
 
     private static boolean isDirectoryOrFileExists(String path) {
