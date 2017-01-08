@@ -25,23 +25,47 @@ public class PathConstructorHelperTest {
 
     @Test
     public void testConstructPath() {
-        File expectedPathAfterConstruct = new File(DESTINATION + File.separator + "FUJI2NOOR" + File.separator + "100002.jpg");
-        File actualPathAfterConstruct = PathConstructorHelper.constructPath(DESTINATION, "FUJI2NOOR", "http://deltaplus-cei.com/img/b/10/00/100002.jpg");
+        String expectedFolderPath = DESTINATION + File.separator + "FUJI2NOOR";
+        File actualFolderPathAfterConstruct = PathConstructorHelper.constructPath(DESTINATION, "FUJI2NOOR");
 
-        assertEquals(expectedPathAfterConstruct, actualPathAfterConstruct);
+        assertEquals(new File(expectedFolderPath), actualFolderPathAfterConstruct);
     }
 
     @Test
-    public void testConstructPathWhenThatFolderAlreadyExists() throws Exception {
+    public void testConstructPathWhenSuchFolderAlreadyExists() throws Exception {
         spy(PathConstructorHelper.class);
 
-        when(PathConstructorHelper.class, method(PathConstructorHelper.class, "isDirectoryExists", String.class))
+        when(PathConstructorHelper.class, method(PathConstructorHelper.class, "isDirectoryOrFileExists", String.class))
                 .withArguments(anyString())
                 .thenReturn(true).thenReturn(true).thenReturn(false);
 
-        File expectedPathAfterConstruct = new File(DESTINATION + File.separator + "FUJI2NOOR(2)" + File.separator + "100002.jpg");
-        File actualPathAfterConstruct = PathConstructorHelper.constructPath(DESTINATION, "FUJI2NOOR", "http://deltaplus-cei.com/img/b/10/00/100002.jpg");
+        String expectedFolderPath = DESTINATION + File.separator + "FUJI2NOOR(2)";
+        File actualFolderPathAfterConstruct = PathConstructorHelper.constructPath(DESTINATION, "FUJI2NOOR");
 
-        assertEquals(expectedPathAfterConstruct, actualPathAfterConstruct);
+        assertEquals(new File(expectedFolderPath), actualFolderPathAfterConstruct);
+    }
+
+    @Test
+    public void testAddImageNameToPath() {
+        String expectedPathToFile = DESTINATION + File.separator + "FUJI2NOOR" + File.separator + "100002.jpg";
+        String folderPath = DESTINATION + File.separator + "FUJI2NOOR";
+        File actualPathAfterAddImageNameToPath = PathConstructorHelper.addImageNameToPath(folderPath, "http://deltaplus-cei.com/img/b/10/00/100002.jpg");
+
+        assertEquals(new File(expectedPathToFile), actualPathAfterAddImageNameToPath);
+    }
+
+    @Test
+    public void testAddImageNameToPathWhenSuchNameAlreadyExists() throws Exception {
+        spy(PathConstructorHelper.class);
+
+        when(PathConstructorHelper.class, method(PathConstructorHelper.class, "isDirectoryOrFileExists", String.class))
+                .withArguments(anyString())
+                .thenReturn(true).thenReturn(true).thenReturn(false);
+
+        String expectedPathToFile = DESTINATION + File.separator + "FUJI2NOOR" + File.separator + "100002(2).jpg";
+        String folderPath = DESTINATION + File.separator + "FUJI2NOOR";
+        File actualPathAfterConstruct = PathConstructorHelper.addImageNameToPath(folderPath, "http://deltaplus-cei.com/img/b/10/00/100002.jpg");
+
+        assertEquals(new File(expectedPathToFile), actualPathAfterConstruct);
     }
 }
