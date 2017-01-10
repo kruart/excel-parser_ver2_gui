@@ -51,6 +51,7 @@ public class Main extends Application {
             node = (VBox)fxmlLoader.load();
 
             mainController = fxmlLoader.getController();
+            mainController.setMainStage(primaryStage);
             primaryStage.setTitle("Excel parser");
 
         } catch (IOException e) {
