@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -25,9 +26,9 @@ public class MainController {
     @FXML
     public Button btnParsing;
     @FXML
-    public Label labelPathToFile;
+    public Label labelSelectedFile;
     @FXML
-    public Label labelPathToDirectory;
+    public Label labelSelectedDirectory;
     @FXML
     public Label labelStatus;
 
@@ -39,21 +40,32 @@ public class MainController {
 
     @FXML
     private void hndlOpenFile(ActionEvent event) {
-        //Класс работы с диалогом выборки и сохранения
+        //Класс для работи с діалогом виборки та збереження
         fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Document");//Заголовок диалога
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Microsoft Excel", "*.xls", "*.xlsx");  //Расширение
+        fileChooser.setTitle("Open Document");//Заголовок діалогу
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Microsoft Excel", "*.xls", "*.xlsx");  //Розширення
         fileChooser.getExtensionFilters().add(extFilter);
-        //Указываем текущую сцену
-        fileChosen = fileChooser.showOpenDialog(this.getMainStage());
-        if (fileChosen != null) {     //Open
-            System.out.println("Процесс открытия файла");
-            labelPathToFile.setText(fileChosen.getAbsolutePath());
+        //Вказуємо поточну сцену
+        fileChosen = fileChooser.showOpenDialog(this.getMainStage());   //зберігаєм файл
+        if (fileChosen != null) {
+            labelSelectedFile.setText(fileChosen.getAbsolutePath());
+        } else{
+            labelSelectedFile.setText("Файл не вибрано");
         }
     }
 
     @FXML
     private void hndlChoosingDirectory(ActionEvent actionEvent) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Choose Directory");  //Заголовок диалога
+        File selectedDirectory = directoryChooser.showDialog(this.getMainStage());  //зберігаєм шлях в об'єкті File
+
+        if(selectedDirectory != null){
+            labelSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
+            this.getMainStage().sizeToScene();
+        } else{
+            labelSelectedDirectory.setText("Директорію не вибрано");
+        }
     }
 
     @FXML

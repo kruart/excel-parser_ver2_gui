@@ -12,11 +12,11 @@
    <children>
       <HBox prefHeight="27.0" prefWidth="400.0">
          <children>
-            <Button fx:id="btnChoosingExcel" mnemonicParsing="false" onAction="#hndlOpenFile" prefHeight="25.0" prefWidth="157.0" text="Виберіть excel-файл">
+            <Button fx:id="btnChoosingExcel" mnemonicParsing="false" onAction="#hndlOpenFile" prefHeight="25.0" prefWidth="153.0" text="Виберіть excel-файл">
                <HBox.margin>
                   <Insets left="35.0" top="30.0" />
                </HBox.margin></Button>
-            <Label fx:id="labelPathToFile" text="Шлях до файла" underline="true">
+            <Label fx:id="labelSelectedFile" text="Файл не вибрано" underline="true">
                <HBox.margin>
                   <Insets left="25.0" right="35.0" top="30.0" />
                </HBox.margin>
@@ -25,12 +25,12 @@
       </HBox>
       <HBox prefHeight="58.0" prefWidth="400.0">
          <children>
-            <Button fx:id="btnChoosingDirectory" mnemonicParsing="false" onAction="#hndlChoosingDirectory" prefHeight="25.0" prefWidth="157.0" text="Виберіть папку для збереження">
+            <Button fx:id="btnChoosingDirectory" mnemonicParsing="false" onAction="#hndlChoosingDirectory" prefHeight="25.0" prefWidth="153.0" text="Виберіть папку">
                <HBox.margin>
                   <Insets left="35.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <Label fx:id="labelPathToDirectory" text="Шлях до директорії" underline="true">
+            <Label fx:id="labelSelectedDirectory" text="Директорію не вибрано" underline="true">
                <HBox.margin>
                   <Insets left="25.0" right="35.0" top="15.0" />
                </HBox.margin>
@@ -39,7 +39,7 @@
       </HBox>
       <HBox prefHeight="44.0" prefWidth="400.0">
          <children>
-            <TextField fx:id="txtAttrColumn" prefHeight="25.0" prefWidth="157.0" promptText="номер колонки атрибута">
+            <TextField fx:id="txtAttrColumn" prefHeight="25.0" prefWidth="153.0" promptText="номер колонки атрибута">
                <HBox.margin>
                   <Insets left="35.0" />
                </HBox.margin>
@@ -48,7 +48,7 @@
       </HBox>
       <HBox prefHeight="39.0" prefWidth="400.0">
          <children>
-            <TextField fx:id="txtLinksColumn" prefHeight="25.0" prefWidth="157.0" promptText="номер колонки лінків">
+            <TextField fx:id="txtLinksColumn" prefHeight="25.0" prefWidth="153.0" promptText="номер колонки лінків">
                <HBox.margin>
                   <Insets left="35.0" />
                </HBox.margin>
