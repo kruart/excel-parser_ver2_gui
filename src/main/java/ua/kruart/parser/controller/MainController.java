@@ -30,5 +30,8 @@ public class MainController {
 
     public void actionButtonPressed(ActionEvent actionEvent) {
 
+        Button source = (Button)actionEvent.getSource();
+
+        System.out.println("Hello" + source.getText());
     }
 }
