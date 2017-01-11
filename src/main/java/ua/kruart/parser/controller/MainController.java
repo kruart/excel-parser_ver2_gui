@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import ua.kruart.parser.service.ExcelDataRowService;
 
 import java.io.File;
 
@@ -38,6 +39,7 @@ public class MainController {
     private File selectedFile;
     private File selectedDirectory;
     private boolean isDataCorrect = true;
+    private ExcelDataRowService service = new ExcelDataRowService();
 
 
     @FXML
@@ -75,6 +77,14 @@ public class MainController {
     private void hndlStartParsing(ActionEvent actionEvent) {
 
         if (isAllFieldsCorrectFilled()) {
+//            labelStatus.textProperty().bind("Статус: парсинг...");
+            labelStatus.setText("Статус: парсинг...");
+
+
+                int attrColumn = Integer.parseInt(txtAttrColumn.getText()) - 1;
+                int linkColumn = Integer.parseInt(txtLinksColumn.getText()) - 1;
+                service.extractDataRowsFromFileAndSave(selectedFile, selectedDirectory, attrColumn, linkColumn);
+                labelStatus.setText("Статус: парсинг завершен");
 
         }
     }
@@ -84,11 +94,12 @@ public class MainController {
         if (selectedFile != null && selectedDirectory != null   //if files not null and textField contains digits
                 && txtAttrColumn.getText().matches("\\d+") && txtLinksColumn.getText().matches("\\d+")) {
             labelStatus.setTextFill(Color.web("#42e329"));
+
             isDataCorrect = true;
 
         } else {
             labelStatus.setTextFill(Color.web("#FF0000"));
-            labelStatus.setText(labelStatus.getText() + " Не всі дані заповнені коректно!");
+            labelStatus.setText("Статус: не всі дані заповнені коректно!");
             isDataCorrect = false;
         }
 
