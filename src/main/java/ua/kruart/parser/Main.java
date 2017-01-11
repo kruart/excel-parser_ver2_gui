@@ -33,7 +33,7 @@ public class Main extends Application {
 
     private void createGUI() {
         currentRoot = loadFXML();
-        Scene scene = new Scene(currentRoot, 300, 275);
+        Scene scene = new Scene(currentRoot, 400, 400);
         primaryStage.setScene(scene);
         primaryStage.setMinHeight(400);
         primaryStage.setMinWidth(400);

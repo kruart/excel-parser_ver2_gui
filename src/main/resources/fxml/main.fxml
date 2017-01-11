@@ -64,9 +64,9 @@
             </Button>
          </children>
       </HBox>
-      <HBox prefHeight="53.0" prefWidth="400.0">
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0" prefWidth="412.0">
          <children>
-            <Label fx:id="labelStatus" alignment="TOP_LEFT" text="Статус: " textFill="#1b1a1af2">
+            <Label fx:id="labelStatus" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Статус: " textFill="#1b1a1af2">
                <HBox.margin>
                   <Insets left="35.0" />
                </HBox.margin>

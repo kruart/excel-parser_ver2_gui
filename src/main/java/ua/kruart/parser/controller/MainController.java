@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -34,21 +35,22 @@ public class MainController {
 
     private Stage mainStage;
 
-    private FileChooser fileChooser;
-    private File fileChosen;
+    private File selectedFile;
+    private File selectedDirectory;
+    private boolean isDataCorrect = true;
 
 
     @FXML
     private void hndlOpenFile(ActionEvent event) {
         //Класс для работи с діалогом виборки та збереження
-        fileChooser = new FileChooser();
+        FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Document");//Заголовок діалогу
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Microsoft Excel", "*.xls", "*.xlsx");  //Розширення
         fileChooser.getExtensionFilters().add(extFilter);
         //Вказуємо поточну сцену
-        fileChosen = fileChooser.showOpenDialog(this.getMainStage());   //зберігаєм файл
-        if (fileChosen != null) {
-            labelSelectedFile.setText(fileChosen.getAbsolutePath());
+        selectedFile = fileChooser.showOpenDialog(this.getMainStage());   //зберігаєм файл
+        if (selectedFile != null) {
+            labelSelectedFile.setText(selectedFile.getAbsolutePath());
         } else{
             labelSelectedFile.setText("Файл не вибрано");
         }
@@ -58,7 +60,8 @@ public class MainController {
     private void hndlChoosingDirectory(ActionEvent actionEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Choose Directory");  //Заголовок диалога
-        File selectedDirectory = directoryChooser.showDialog(this.getMainStage());  //зберігаєм шлях в об'єкті File
+        //зберігаєм шлях в об'єкті File
+        selectedDirectory = directoryChooser.showDialog(this.getMainStage());
 
         if(selectedDirectory != null){
             labelSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
@@ -70,6 +73,26 @@ public class MainController {
 
     @FXML
     private void hndlStartParsing(ActionEvent actionEvent) {
+
+        if (isAllFieldsCorrectFilled()) {
+
+        }
+    }
+
+    private boolean isAllFieldsCorrectFilled() {
+        labelStatus.setText("Cтатус:");
+        if (selectedFile != null && selectedDirectory != null   //if files not null and textField contains digits
+                && txtAttrColumn.getText().matches("\\d+") && txtLinksColumn.getText().matches("\\d+")) {
+            labelStatus.setTextFill(Color.web("#42e329"));
+            isDataCorrect = true;
+
+        } else {
+            labelStatus.setTextFill(Color.web("#FF0000"));
+            labelStatus.setText(labelStatus.getText() + " Не всі дані заповнені коректно!");
+            isDataCorrect = false;
+        }
+
+        return isDataCorrect;
     }
 
     public Stage getMainStage() {
