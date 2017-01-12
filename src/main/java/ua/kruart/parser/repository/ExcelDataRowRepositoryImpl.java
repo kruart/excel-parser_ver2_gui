@@ -29,6 +29,7 @@ public class ExcelDataRowRepositoryImpl implements DataRowRepository {
 
                 try {
                     FileUtils.copyURLToFile(new URL(link), fullPath);
+                    LOGGER.info("Image has been downloaded: {}", fullPath.getCanonicalPath());
                 } catch (IOException e) {
                     LOGGER.error("Something has gone wrong. Probably the file cannot be found.", e.getMessage());
                 }
