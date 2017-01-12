@@ -1,0 +1,1 @@
+java -jar target/excelParser-jar-with-dependencies.jar
