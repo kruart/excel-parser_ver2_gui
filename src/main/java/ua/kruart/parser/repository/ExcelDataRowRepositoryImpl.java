@@ -7,7 +7,6 @@ import ua.kruart.parser.model.DataRow;
 import ua.kruart.parser.util.PathConstructorHelper;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
@@ -25,12 +24,13 @@ public class ExcelDataRowRepositoryImpl implements DataRowRepository {
             File folderPath = PathConstructorHelper.constructPath(dest, row.getName());
 
             for (String link : row.getLinks()) {
-                File fullPath = PathConstructorHelper.addImageNameToPath(folderPath.getAbsolutePath(), link);
-
                 try {
+                    File fullPath = PathConstructorHelper.addImageNameToPath(folderPath.getAbsolutePath(), link);
+
+
                     FileUtils.copyURLToFile(new URL(link), fullPath);
                     LOGGER.info("Image has been downloaded: {}", fullPath.getCanonicalPath());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     LOGGER.error("Something has gone wrong. Probably the file cannot be found.", e.getMessage());
                 }
             }

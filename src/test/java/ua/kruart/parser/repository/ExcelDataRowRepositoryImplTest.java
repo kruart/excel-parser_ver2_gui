@@ -31,7 +31,7 @@ public class ExcelDataRowRepositoryImplTest {
         List<DataRow> rows = getTestData();
 
         repository.save(DESTINATION, rows);
-        String expectedPathToFile = DESTINATION + File.separator + "FUJI2NOOR" + File.separator + "zazaa.jpg";
+        String expectedPathToFile = DESTINATION + File.separator + "FUJI2NOOR" + File.separator + "C19Tz2bWEAA0rbm.jpg";
         assertTrue(new File(expectedPathToFile).exists());
 
         FileUtils.deleteDirectory(new File(DESTINATION));

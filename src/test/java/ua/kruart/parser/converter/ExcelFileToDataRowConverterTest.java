@@ -37,7 +37,7 @@ public class ExcelFileToDataRowConverterTest {
 
     @Test
     public void testBreakStringOnTheLinks() {
-        String line = "http://deltaplus-cei.com/img/b/10/00/100001.jpg,   http://deltaplus-cei.com/img/b/10/00/100001-1.pnghttp://deltaplus-cei.com/img/b/10/00/100001-2.jpg;%20http://deltaplus-cei.com/img/b/10/00/100001-2.jpg";
+        String line = "http://deltaplus-cei.com/img/b/10/00/100001.jpg,   http://deltaplus-cei.com/img/b/10/00/100001-1.png http://deltaplus-cei.com/img/b/10/00/100001-2.jpg;%20http://deltaplus-cei.com/img/b/10/00/100001-2.jpg";
         String[] links = ExcelFileToDataRowConverter.breakStringOnTheLinks(line);
 
         assertEquals("number of links in line after \"regex\" split", 4, links.length);

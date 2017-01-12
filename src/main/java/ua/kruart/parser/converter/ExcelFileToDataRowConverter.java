@@ -77,8 +77,9 @@ public class ExcelFileToDataRowConverter {
     }
 
     public static String[] breakStringOnTheLinks(String line) {
-        String newLine = line.replaceAll(" |%20|;|,", "");
-        return newLine.split(("(?<=.jpg|.png)"));
+        String newLine = line.replaceAll("%20", " ");
+//      String[] splitStrs = newLine.split(("("(?<=.jpg|.png)")"));
+        return newLine.split("[,; ]+");
 
     }
 }
