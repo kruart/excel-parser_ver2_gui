@@ -1,5 +1,6 @@
 package ua.kruart.parser.controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,12 +36,10 @@ public class MainController {
     public Label labelStatus;
 
     private Stage mainStage;
-
     private File selectedFile;
     private File selectedDirectory;
     private boolean isDataCorrect = true;
     private ExcelDataRowService service = new ExcelDataRowService();
-
 
     @FXML
     private void hndlOpenFile(ActionEvent event) {
@@ -62,42 +61,47 @@ public class MainController {
     private void hndlChoosingDirectory(ActionEvent actionEvent) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Choose Directory");  //Заголовок диалога
-        //зберігаєм шлях в об'єкті File
-        selectedDirectory = directoryChooser.showDialog(this.getMainStage());
+        selectedDirectory = directoryChooser.showDialog(this.getMainStage()); //зберігаєм шлях в об'єкті File
 
-        if(selectedDirectory != null){
+        if(selectedDirectory != null) {
             labelSelectedDirectory.setText(selectedDirectory.getAbsolutePath());
             this.getMainStage().sizeToScene();
-        } else{
+        } else {
             labelSelectedDirectory.setText("Директорію не вибрано");
         }
     }
 
     @FXML
     private void hndlStartParsing(ActionEvent actionEvent) {
-
-        if (isAllFieldsCorrectFilled()) {
-//            labelStatus.textProperty().bind("Статус: парсинг...");
-            labelStatus.setText("Статус: парсинг...");
-
-
-                int attrColumn = Integer.parseInt(txtAttrColumn.getText()) - 1;
-                int linkColumn = Integer.parseInt(txtLinksColumn.getText()) - 1;
-                service.extractDataRowsFromFileAndSave(selectedFile, selectedDirectory, attrColumn, linkColumn);
-                labelStatus.setText("Статус: парсинг завершен");
-
+        if (isAllFieldsCorrectFilled()) {   //if the data is valid then we do the parsing
+            parsing();
         }
     }
 
+    private void parsing() {
+        labelStatus.setTextFill(Color.web("#42e329"));
+        labelStatus.setText("Статус: парсинг даних...");
+//        See more https://examples.javacodegeeks.com/desktop-java/javafx/javafx-concurrency-example/
+        Runnable task = this::runTask;  // Create a Runnable.
+        Thread backgroundThread = new Thread(task); // Run the task in a background thread
+        backgroundThread.setDaemon(true);   // Terminate the running thread if the application exits
+        backgroundThread.start();   // Start the thread
+    }
+
+    private void runTask() {
+        int attrColumn = Integer.parseInt(txtAttrColumn.getText()) - 1;
+        int linkColumn = Integer.parseInt(txtLinksColumn.getText()) - 1;
+        service.extractDataRowsFromFileAndSave(selectedFile, selectedDirectory, attrColumn, linkColumn);
+        // Update the Label on the JavaFx Application Thread
+        Platform.runLater(() -> labelStatus.setText("Статус: парсинг завершено!"));
+    }
+
     private boolean isAllFieldsCorrectFilled() {
-        labelStatus.setText("Cтатус:");
-        if (selectedFile != null && selectedDirectory != null   //if files not null and textField contains digits
+        //if files not null and textField contains only digits then data is correct
+        if (selectedFile != null && selectedDirectory != null
                 && txtAttrColumn.getText().matches("\\d+") && txtLinksColumn.getText().matches("\\d+")) {
-            labelStatus.setTextFill(Color.web("#42e329"));
-
             isDataCorrect = true;
-
-        } else {
+        } else if (isDataCorrect){
             labelStatus.setTextFill(Color.web("#FF0000"));
             labelStatus.setText("Статус: не всі дані заповнені коректно!");
             isDataCorrect = false;
