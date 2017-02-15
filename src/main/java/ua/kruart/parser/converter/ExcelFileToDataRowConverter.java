@@ -1,10 +1,8 @@
 package ua.kruart.parser.converter;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +73,7 @@ public class ExcelFileToDataRowConverter {
         DataRow dataRow = null;
 
         if (isCellValid(attributeCell) && isCellValid(imageLinkCell)) {
-            dataRow = convertStringsToDataRowObject(attributeCell.getStringCellValue(), imageLinkCell.getStringCellValue());
+            dataRow = convertStringsToDataRowObject(getValue(attributeCell), getValue(imageLinkCell));
         }
 
         return dataRow;
@@ -85,7 +83,7 @@ public class ExcelFileToDataRowConverter {
      * Checks that HSSFCell object isn't null and not empty
      */
     private static boolean isCellValid(Cell cell) {
-        return cell != null && !cell.getStringCellValue().isEmpty();
+        return cell != null && !getValue(cell).isEmpty();
     }
 
     private static DataRow convertStringsToDataRowObject(String attributeCell, String imageLinkCell) {
@@ -96,7 +94,32 @@ public class ExcelFileToDataRowConverter {
     public static String[] breakStringOnTheLinks(String line) {
         String newLine = line.replaceAll("%20", " ");
 //      String[] splitStrs = newLine.split(("("(?<=.jpg|.png)")"));
-        return newLine.split("[,; ]+");
+        return newLine.split("[,; \n]+");
 
+    }
+
+    public static String getValue(Cell cell) {
+        String result = "";
+
+        switch (cell.getCellType()) {
+            case Cell.CELL_TYPE_STRING:
+                result = cell.getRichStringCellValue().getString();
+                break;
+            case Cell.CELL_TYPE_NUMERIC:
+                result = NumberToTextConverter.toText(cell.getNumericCellValue());    //конвертуємо число в текст
+                break;
+            case Cell.CELL_TYPE_BOOLEAN:
+                result = Boolean.toString(cell.getBooleanCellValue());
+                break;
+            case Cell.CELL_TYPE_FORMULA:
+                result = cell.getCellFormula();
+                break;
+            case Cell.CELL_TYPE_BLANK:
+                break;
+            default:
+                return null;
+        }
+
+        return result;
     }
 }
